@@ -1,6 +1,6 @@
-<ion-header>
-  <ion-navbar>
-    <button ion-button menuToggle>
+<ion-header >
+  <ion-navbar >
+    <button ion-button menuToggle >
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Home</ion-title>
@@ -29,7 +29,7 @@
     </div>
 </ion-segment>
 
-<ion-slides pager='true' loop='true' autoplay='10000' style="max-height:400px">
+<ion-slides pager='true' loop='true' autoplay='10000' style="max-height:40%">
   <ion-slide>
     <h1>Slide 1</h1>
   </ion-slide>
@@ -40,5 +40,42 @@
     <h1>Slide 3</h1>
   </ion-slide>
 </ion-slides>
+<div class="spacer" style="height: 30px;" ></div>
+<ion-segment>
+  <div class="butcolmenu" >
+  <button ion-button  color="danger" clear class="colbutmenu" (click)="gotoPage('LakupandaiPage')">
+    <img src="http://golekno.com/metapro/wp-content/uploads/sites/2/2017/07/lakupandai300.png" style="display: block; width: 100%; height: auto; margin-left: auto; margin-right: auto;">
+    </button>
+    </div>
+      <div class="butcolmenu">
+    <button ion-button  color="danger" clear class="colbutmenu">
+      <img src="http://golekno.com/metapro/wp-content/uploads/sites/2/2017/07/mobile-banking300.png" style="display: block; width: 100%; height: auto; margin-left: auto; margin-right: auto;">
+    </button>
+    </div>
+      <div class="butcolmenu">
+    <button ion-button  color="danger" clear class="colbutmenu">
+      <img src="http://golekno.com/metapro/wp-content/uploads/sites/2/2017/07/produk300.png" style="display: block; width: 100%; height: auto; margin-left: auto; margin-right: auto;">
+    </button>
+    </div>
+</ion-segment>
+<div class="spacer" style="height: 30px;" ></div>
+<ion-segment>
+  <div class="butcolmenu">
+  <button ion-button  color="danger" clear class="colbutmenu">
+    <img src="http://golekno.com/metapro/wp-content/uploads/sites/2/2017/07/pembelian300.png" style="display: block; width: 100%; height: auto; margin-left: auto; margin-right: auto;">
+    </button>
+    </div>
+      <div class="butcolmenu">
+    <button ion-button  color="danger" clear class="colbutmenu">
+      <img src="http://golekno.com/metapro/wp-content/uploads/sites/2/2017/07/pembayaran300.png" style="display: block; width: 100%; height: auto; margin-left: auto; margin-right: auto;">
+    </button>
+    </div>
+      <div class="butcolmenu">
+    <button ion-button  color="danger" clear class="colbutmenu">
+      <img src="http://golekno.com/metapro/wp-content/uploads/sites/2/2017/07/report300.png" style="display: block; width: 100%; height: auto; margin-left: auto; margin-right: auto;">
+    </button>
+    </div>
+</ion-segment>
+
 
 </ion-content>

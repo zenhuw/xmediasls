@@ -8,12 +8,17 @@ import { ListPage } from '../pages/list/list';
 import {TabsPage} from '../pages/tabs/tabs';
 import { HelpPage } from '../pages/help/help';
 import { ProfilePage } from '../pages/profile/profile';
-
+import { HistoryPage } from '../pages/history/history';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-
-
+import {LoginPage} from '../pages/login/login';
+import {LakupandaiPage} from '../pages/lakupandai/lakupandai';
+import { CurrencyPipe } from '@angular/common';
+import { DecimalPipe } from '@angular/common';
+import { HttpReqProvider } from '../providers/http-req/http-req';
+import { AuthSingletonProvider } from '../providers/auth-singleton/auth-singleton';
+import { HttpModule } from '@angular/http';
 
 @NgModule({
   declarations: [
@@ -22,11 +27,13 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     ListPage,
     TabsPage,
     HelpPage,
-    ProfilePage
+    ProfilePage,
+    HistoryPage,
+    LoginPage
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(MyApp),HttpModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -35,12 +42,18 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     ListPage,
     TabsPage,
     HelpPage,
-    ProfilePage
+    ProfilePage,
+    HistoryPage,
+    LoginPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    CurrencyPipe,
+    DecimalPipe,
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    HttpReqProvider,
+    AuthSingletonProvider
   ]
 })
 export class AppModule {}
