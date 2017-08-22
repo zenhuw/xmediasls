@@ -1,6 +1,22 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { DecimalPipe } from '@angular/common';
+import {
+  Component
+} from '@angular/core';
+import {
+  IonicPage,
+  NavController,
+  NavParams,
+  MenuController,
+  LoadingController,
+  AlertController
+} from 'ionic-angular';
+import {
+  HttpReqProvider
+} from '../../providers/http-req/http-req';
+import {
+  AuthSingletonProvider
+} from '../../providers/auth-singleton/auth-singleton';
+
 /**
  * Generated class for the SetortunaiPage page.
  *
@@ -15,24 +31,107 @@ import { DecimalPipe } from '@angular/common';
 })
 export class SetortunaiPage {
 
+
   input: {
     nominal: any,
    note: string,
    nominalstr: string,
-   nominalstrold: string
+   nominalstrold: string,
+   pin: string
   }={
     nominal:'',
     nominalstr: '',
     nominalstrold:'',
-    note: ""
+    note: "",
+    pin: ""
   }
   changeDetected: boolean=false;
   getCurrency(amount: any) {
     return this.decimalPipe.transform(amount,'1.2-2');
   }
-  constructor(public navCtrl: NavController, public navParams: NavParams,
-    private decimalPipe: DecimalPipe) {
+
+    loading: any;
+  showalertsucc(msg) {
+    let alert = this.alertctrl.create({
+      title: 'NOTIFICATION',
+      subTitle: msg,
+      buttons: [ {
+        text: 'Ok',
+        role: 'ok',
+        handler: () => {
+          this.navCtrl.pop();
+        }
+      }]
+    });
+
+    alert.present();
+
   }
+
+showPrompt() {
+    let prompt = this.alertctrl.create({
+      title: 'PIN',
+      message: "Enter Your PIN",
+      inputs: [
+        {
+          name: 'PIN',
+          placeholder: '123456',
+          type: 'password',
+          max:6,
+          min:6,
+          maxlength:'6'
+        },
+      ],
+      buttons: [
+        {
+          text: 'Confirm',
+          handler: data => {
+            this.input.pin= data.PIN;
+            this.transactionStart();
+          }
+        },
+        {
+          text: 'Cancel',
+          handler: data => {
+          }
+        }
+
+      ]
+    });
+    prompt.present();
+  }
+
+  showalert(msg) {
+    let alert = this.alertctrl.create({
+      title: 'NOTIFICATION',
+      subTitle: msg,
+      buttons: [ {
+        text: 'Ok',
+        role: 'ok',
+        handler: () => {
+          this.navCtrl.pop();
+        }
+      }]
+    });
+
+    alert.present();
+
+  }
+
+  showloading(msg ? ) {
+    this.loading = this.loadingCtrl.create({
+      spinner: 'dots',
+      content: 'Please Wait...'
+    });
+  }
+
+  authInfo: any;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+    private decimalPipe: DecimalPipe,
+   public loadingCtrl: LoadingController, public httpreq: HttpReqProvider, public auth: AuthSingletonProvider, public alertctrl: AlertController) {
+     this.authInfo= this.auth.authInfo; }
+  
 
   // jalanin() {
     
@@ -62,6 +161,51 @@ onPriceUp(evt){
     }
     
     submitButton(){
-      this.navCtrl.pop();
+      this.showPrompt();
+      }
+
+      
+      transactionStart(){
+        console.log(this.input.pin)
+   var  params= {
+           xaccountnumber:     this.authInfo.accountno,
+                xpin: this.input.pin,
+                xtoken: this.authInfo.token,
+                xnominal: this.input.nominal,
+                xlocation: this.authInfo.longlat,
+                xketerangan: this.input.note,
+      xusername: this.authInfo.username,
+xtranfrom: 'M'
+              }
+              
+
+    var query = "";
+    for (let key in params) {
+        query += encodeURIComponent(key)+"="+encodeURIComponent(params[key])+"&";
     }
-}
+        this.showloading();
+        this.loading.present();
+        this.httpreq.postreq("sesetortunai?",query)
+          .subscribe((response) => {
+              if (response.STATUS == "OK") {
+                this.loading.dismiss();
+                console.log(response)
+                this.showalertsucc(response.MESSAGE);
+              
+                
+              } else if(response.STATUS !="OK") {
+                this.loading.dismiss();
+                this.showalert(response.MESSAGE);
+                console.log(response)
+              }
+    
+            }, (error) => {
+              this.loading.dismiss();
+
+              this.showalert("KONEKSI BERMASALAH, HARAP ULANGI BEBERAPA SAAT LAGI");
+            }
+    
+          )
+      }
+      }
+
