@@ -19,7 +19,9 @@ import { DecimalPipe } from '@angular/common';
 import { HttpReqProvider } from '../providers/http-req/http-req';
 import { AuthSingletonProvider } from '../providers/auth-singleton/auth-singleton';
 import { HttpModule } from '@angular/http';
-
+import { QRCodeModule } from 'angular2-qrcode';
+import {ExpandableComponent} from '../components/expandable/expandable';
+import { BarcodeScanner,BarcodeScannerOptions } from '@ionic-native/barcode-scanner';
 @NgModule({
   declarations: [
     MyApp,
@@ -29,11 +31,13 @@ import { HttpModule } from '@angular/http';
     HelpPage,
     ProfilePage,
     HistoryPage,
-    LoginPage
+    LoginPage,ExpandableComponent
+    
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp),HttpModule
+    IonicModule.forRoot(MyApp),HttpModule,QRCodeModule
+   
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -53,7 +57,8 @@ import { HttpModule } from '@angular/http';
     DecimalPipe,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     HttpReqProvider,
-    AuthSingletonProvider
+    AuthSingletonProvider,
+    BarcodeScanner
   ]
 })
 export class AppModule {}

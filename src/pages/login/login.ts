@@ -68,7 +68,7 @@ export class LoginPage {
             this.auth.setter(this.userInfo.username, response.TOKEN, this.longlat, response.ACCOUNT)
             this.loading.dismiss();
             this.navCtrl.push(TabsPage);
-            console.log(this.auth.authInfo)
+            console.log(this.auth.authInfo);
           } else {
             this.loading.dismiss();
             this.showalert(response.MESSAGE);

@@ -1,18 +1,204 @@
-import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import {
+  Component
+} from '@angular/core';
+import {
+  NavController,
+  AlertController,
+  LoadingController
+} from 'ionic-angular';
+import {
+  DecimalPipe
+} from '@angular/common';
+import {
+  HttpReqProvider
+} from '../../providers/http-req/http-req';
+import {
+  AuthSingletonProvider
+} from '../../providers/auth-singleton/auth-singleton';
+import {
+  BarcodeScanner,
+  BarcodeScannerOptions
+} from '@ionic-native/barcode-scanner';
+import moment from 'moment';
 
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
 export class HomePage {
+  authInfo: any;
+  loading: any;
+  pin: string;
+  options: BarcodeScannerOptions;
+  results: any;
 
-  constructor(public navCtrl: NavController) {
+  async scanBarcode() {
+    this.results = await this.barcode.scan();
+    console.log(this.results);
+    this.QRscan();
+  }
+
+  showloading(msg ? ) {
+    this.loading = this.loadingCtrl.create({
+      spinner: 'dots',
+      content: 'Please Wait...'
+    });
+  }
+  getCurrency(amount: any) {
+    return this.decimalPipe.transform(amount, '3.2-5');
+  }
+  showalert(msg, title) {
+    let alert = this.alertctrl.create({
+      title: title,
+      subTitle: msg,
+      buttons: [{
+        text: 'Ok',
+        role: 'ok',
+        handler: () => {}
+      }]
+    });
+
+
+    alert.present();
 
   }
 
-gotoPage(page){
-  this.navCtrl.push(page);
-}
+
+
+  showPrompt() {
+    let prompt = this.alertctrl.create({
+      title: 'PIN',
+      message: "Enter Your PIN",
+      inputs: [{
+        name: 'PIN',
+        placeholder: '123456',
+        type: 'password',
+        max: 6,
+        min: 6
+      }, ],
+      buttons: [{
+          text: 'Confirm',
+          handler: data => {
+            this.pin = data.PIN;
+            this.saldoCheck();
+          }
+        },
+        {
+          text: 'Cancel',
+          handler: data => {}
+        }
+
+      ]
+    });
+    prompt.present();
+  }
+  constructor(public navCtrl: NavController, public alertctrl: AlertController, private decimalPipe: DecimalPipe, public httpreq: HttpReqProvider, public auth: AuthSingletonProvider, public loadingCtrl: LoadingController, private barcode: BarcodeScanner) {
+    this.authInfo = this.auth.authInfo;
+  }
+
+  gotoPage(page) {
+    this.navCtrl.push(page);
+  }
+
+  QRscan() {
+    let date = moment().format('YYYY:MM:DD');
+    let time = moment().format('HH:mm:ss');
+
+    var params = {
+      xaccountnumber: this.results.text.accountno,
+      xtoken: this.authInfo.token,
+      xlocation: this.authInfo.longlat,
+      xaction: 'trnagen',
+      xtrnnumber: this.results.text.trnnumber,
+      xaccountnumberagen: this.authInfo.accountno,
+      xdate: date,
+      xtime: time,
+      xusername: this.authInfo.username
+    }
+
+    var query = "";
+    for (let key in params) {
+      query += encodeURIComponent(key) + "=" + encodeURIComponent(params[key]) + "&";
+    }
+    this.showloading();
+    this.loading.present();
+    this.httpreq.postreq("setrnnasabah?", query)
+      .subscribe((response) => {
+          console.log(response);
+          if (response.STATUS == "OK") {
+            this.loading.dismiss();
+            this.showalert(response.MESSAGE, 'Notification');
+
+
+          } else if (response.STATUS != "OK") {
+            this.loading.dismiss();
+            this.showalert(response.MESSAGE, 'Notification');
+            console.log(response)
+          }
+        }, (error) => {
+          this.loading.dismiss();
+
+          this.showalert("KONEKSI BERMASALAH, HARAP ULANGI BEBERAPA SAAT LAGI", 'Notification');
+        }
+
+      )
+  }
+
+
+  saldoCheck() {
+    var params = {
+      xaccountnumber: this.authInfo.accountno,
+      xpin: this.pin,
+      xtoken: this.authInfo.token,
+      xlocation: this.authInfo.longlat,
+      xusername: this.authInfo.username
+
+    }
+
+
+    var query = "";
+    for (let key in params) {
+      query += encodeURIComponent(key) + "=" + encodeURIComponent(params[key]) + "&";
+    }
+    this.showloading();
+    this.loading.present();
+    this.httpreq.getreq("sechecksaldo?" + query)
+      .subscribe((response) => {
+          console.log(response)
+          if (response.STATUS == "OK") {
+            this.loading.dismiss();
+            console.log(response.MESSAGE)
+            let title = response.MESSAGE
+            let saldo = response.SALDO
+            console.log(saldo.length);
+            if (saldo.length > 0) {
+              let saldodec = this.getCurrency(saldo)
+              this.showalert(saldodec, title); // the array is defined and has at least one element
+            } else {
+              this.showalert('0.00', title);
+            }
+
+          } else if (response.STATUS != "OK") {
+            this.loading.dismiss();
+            //  this.showalert(response.MESSAGE);
+            console.log(response)
+          }
+
+        }, (error) => {
+          this.loading.dismiss();
+
+          this.showalert("KONEKSI BERMASALAH, HARAP ULANGI BEBERAPA SAAT LAGI", 'Notification');
+        }
+
+      )
+
+  }
+
 
 }
+
+// Irwan Iglo, [20.08.17 14:13]
+// sechecksaldo
+
+// Irwan Iglo, [20.08.17 14:14]
+// prametter xaccountnumber,xpin,xusername,xtoken,xlocation

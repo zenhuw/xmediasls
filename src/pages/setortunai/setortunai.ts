@@ -78,8 +78,7 @@ showPrompt() {
           placeholder: '123456',
           type: 'password',
           max:6,
-          min:6,
-          maxlength:'6'
+          min:6
         },
       ],
       buttons: [

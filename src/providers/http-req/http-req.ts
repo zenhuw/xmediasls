@@ -24,7 +24,13 @@ export class HttpReqProvider {
   constructor(public http: Http) {}
 
   getreq(url: string) {
-    let obs = this.http.get(this.baseurl + url).map(res => res.json())
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/x-www-form-urlencoded');
+
+    let options = new RequestOptions({
+      headers: headers
+    });
+    let obs = this.http.get(this.baseurl + url,options).map(res => res.json())
     return obs;
   };
 
