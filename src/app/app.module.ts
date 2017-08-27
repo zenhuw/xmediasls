@@ -31,8 +31,8 @@ import { BarcodeScanner,BarcodeScannerOptions } from '@ionic-native/barcode-scan
     HelpPage,
     ProfilePage,
     HistoryPage,
-    LoginPage,ExpandableComponent
-    
+    ExpandableComponent,
+    LoginPage
   ],
   imports: [
     BrowserModule,

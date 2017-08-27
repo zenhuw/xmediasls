@@ -54,14 +54,17 @@ export class LoginPage {
 
     this.getLocation();
   }
-
+  ionViewDidEnter() {
+    this.menucontroller.close();
+    this.menucontroller.swipeEnable(false, 'myMenu');
+  }
 
   goLogin() {
     console.log(this.longlat)
-
+    
     this.showloading();
     this.loading.present();
-    this.httpreq.getreq("selogin?xusername=" + this.userInfo.username + "&xpassword=" + this.userInfo.password + "&xlocation=" + this.longlat + "&xloginfrom=M")
+    this.httpreq.postreq("selogin?","xusername="+this.userInfo.username +"&xpassword=" + this.userInfo.password + "&xlocation=" + this.longlat + "&xloginfrom=M")
       .subscribe((response) => {
           console.log(response)
           if (response.STATUS == "OK") {

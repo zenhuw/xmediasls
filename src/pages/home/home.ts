@@ -32,12 +32,34 @@ export class HomePage {
   options: BarcodeScannerOptions;
   results: any;
 
-  async scanBarcode() {
-    this.results = await this.barcode.scan();
-    console.log(this.results);
-    this.QRscan();
-  }
 
+agenCheck(){
+  if(this.auth.authInfo.agenmode==false){
+    this.showalert("Aktifkan Mode Agen di Menu Setting", "Notification")
+  }else if(this.auth.authInfo.agenmode==true){
+    this.scanSync();
+  }
+}
+
+  async scanBarcode() {
+    this.results = null
+    this.results = await this.barcode.scan();
+    if (this.results !== null) {
+      this.QRscan();
+    }
+  }
+  scanSync() {
+    this.barcode.scan().then((barcodeData) => {
+      this.results = null
+      this.results = barcodeData;
+      if (barcodeData.text.length >0) {
+        this.QRscan();
+      }
+      console.log(typeof this.results);
+    }, (err) => {
+      console.log(err)
+    });
+  }
   showloading(msg ? ) {
     this.loading = this.loadingCtrl.create({
       spinner: 'dots',
