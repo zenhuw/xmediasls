@@ -7,8 +7,8 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title *ngIf="pulsapaket=='pulsa'">Pembelian Pulsa</ion-title>
-    <ion-title *ngIf="pulsapaket=='paket'">Pembelian Paket Data</ion-title>    
+    <ion-title *ngIf="pulsapaket=='PULSA'">Pembelian Pulsa</ion-title>
+    <ion-title *ngIf="pulsapaket=='DATA'">Pembelian Paket Data</ion-title>    
   </ion-navbar>
 
 </ion-header>
@@ -20,27 +20,31 @@
 
     <ion-item>
         <ion-label inline>No Handphone</ion-label>
-<ion-input placeholder="081xxxxxxxxx"  type="tel">
+<ion-input placeholder="081xxxxxxxxx"  type="tel" [(ngModel)]='handphoneno'>
 </ion-input>
 </ion-item>
 <ion-item>
     <ion-label>Operator</ion-label>
-    <ion-select [(ngModel)]="gender" interface="popover">
-      <ion-option value="f">Female</ion-option>
-      <ion-option value="m">Male</ion-option>
+    <ion-select style=" max-width: 100% !important;"[(ngModel)]="selectedvendor" interface="popover">
+      <div *ngFor="let data of vendordata">
+      <ion-option  [value]="data.vendorCode">{{data.vendorCode}}</ion-option>
+      </div>
     </ion-select>
   </ion-item>
-  <ion-item>
-      <ion-label>Nominal</ion-label>
-      <ion-select [(ngModel)]="gender" interface="popover">
-        <ion-option value="f">Female</ion-option>
-        <ion-option value="m">Male</ion-option>
-      </ion-select>
-    </ion-item>
-
 </ion-list>
 
+<ion-item>
+    <ion-label>Nominal</ion-label>
+    <ion-select [(ngModel)]="selecteddetail" interface="popover" style=" max-width: 100% !important;"  >
+      <div *ngIf="checklength()">
+        <div *ngFor="let data of vendordetail[selectedvendor]">
+      <ion-option [value]="data">{{pulsapaket=='PULSA'?data.pulsaName:data.paketDataName}}</ion-option>
+            </div>
+      </div>
+    </ion-select>
+  </ion-item>
+
 <div padding>
-    <button ion-button color="primary" block>SUBMIT</button>
+    <button ion-button color="primary" block (click)="inputCheck()">SUBMIT</button>
   </div>
 </ion-content>
