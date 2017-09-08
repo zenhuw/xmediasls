@@ -226,8 +226,8 @@ agenCheck(){
       xaccountnumber: this.authInfo.accountno,
       xpin: this.pin,
       xtoken: this.authInfo.token,
-      xusername: this.authInfo.username
-
+      xusername: this.authInfo.username,
+      xaction:"rekening"
     }
 
 
