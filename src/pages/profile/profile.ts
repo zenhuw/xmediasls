@@ -1,12 +1,24 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the ProfilePage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
+import {
+  Component
+} from '@angular/core';
+import {
+  IonicPage,
+  NavController,
+  NavParams,
+  MenuController,
+  LoadingController,
+  AlertController,
+  ViewController,
+  ModalController
+} from 'ionic-angular';
+import {
+  HttpReqProvider
+} from '../../providers/http-req/http-req';
+import {
+  AuthSingletonProvider
+} from '../../providers/auth-singleton/auth-singleton';
+import {ChangepassPage} 
+from '../changepass/changepass';
 
 @IonicPage()
 @Component({
@@ -15,11 +27,16 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class ProfilePage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-  }
+authInfo: any;
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ProfilePage');
-  }
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+    public loadingCtrl: LoadingController, public httpreq: HttpReqProvider, public auth: AuthSingletonProvider, public alertctrl: AlertController,public viewCtrl:ViewController, public modalCtrl:ModalController) {
+     this.authInfo= this.auth.authInfo;
+    }
+
+    openModal() {
+      let myModal = this.modalCtrl.create(ChangepassPage);
+      myModal.present();
+    }
 
 }

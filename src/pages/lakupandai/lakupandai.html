@@ -14,7 +14,7 @@
 
 
 <ion-content padding>
-    <button ion-button full icon-start large (click)="gotopage('DaftarnasabahPage')">
+    <button ion-button full icon-start large (click)="gotopage('DaftarnasabahPage')" *ngIf="auth.authInfo.agenmode">
   <ion-icon name="person-add" ></ion-icon >Daftar Nasabah</button>
     <div class="spacer" style="height: 20px;" ></div>
     <button ion-button full icon-start large (click)="gotopage('TariktunaiPage')">

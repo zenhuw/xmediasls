@@ -18,7 +18,7 @@ import {
 } from '../../providers/auth-singleton/auth-singleton';
 
 /**
- * Generated class for the DaftarnasabahPage page.
+ * Generated class for the RegistrationPage page.
  *
  * See http://ionicframework.com/docs/components/#navigation for more info
  * on Ionic pages and navigation.
@@ -26,11 +26,11 @@ import {
 
 @IonicPage()
 @Component({
-  selector: 'page-daftarnasabah',
-  templateUrl: 'daftarnasabah.html',
+  selector: 'page-registration',
+  templateUrl: 'registration.html',
 })
-export class DaftarnasabahPage {
-loginpage:boolean=this.navParams.get('loginpage');
+export class RegistrationPage {
+  loginpage:boolean=this.navParams.get('loginpage');
   input: {
     nama: string,
     email: string,

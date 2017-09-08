@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {
+  AuthSingletonProvider
+} from '../../providers/auth-singleton/auth-singleton';
+
 
 /**
  * Generated class for the LakupandaiPage page.
@@ -14,8 +18,9 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'lakupandai.html',
 })
 export class LakupandaiPage {
-
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  authInfo: any;
+  constructor(public navCtrl: NavController, public navParams: NavParams, public auth:AuthSingletonProvider) {
+    this.authInfo = this.auth.authInfo;
   }
 
  

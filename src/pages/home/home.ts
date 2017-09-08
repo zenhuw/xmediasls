@@ -4,7 +4,8 @@ import {
 import {
   NavController,
   AlertController,
-  LoadingController
+  LoadingController,
+  ModalController
 } from 'ionic-angular';
 import {
   DecimalPipe
@@ -20,6 +21,9 @@ import {
   BarcodeScannerOptions
 } from '@ionic-native/barcode-scanner';
 import moment from 'moment';
+
+import {SaldomodalPage
+} from '../saldomodal/saldomodal';
 
 @Component({
   selector: 'page-home',
@@ -72,7 +76,7 @@ agenCheck(){
   showalert(msg, title) {
     let alert = this.alertctrl.create({
       title: title,
-      subTitle: msg,
+      subTitle:msg,
       buttons: [{
         text: 'Ok',
         role: 'ok',
@@ -102,7 +106,7 @@ agenCheck(){
           text: 'Confirm',
           handler: data => {
             this.pin = data.PIN;
-            this.saldoCheck();
+            this.saldoModal();
           }
         },
         {
@@ -114,7 +118,7 @@ agenCheck(){
     });
     prompt.present();
   }
-  constructor(public navCtrl: NavController, public alertctrl: AlertController, private decimalPipe: DecimalPipe, public httpreq: HttpReqProvider, public auth: AuthSingletonProvider, public loadingCtrl: LoadingController, private barcode: BarcodeScanner) {
+  constructor(public navCtrl: NavController, public alertctrl: AlertController, private decimalPipe: DecimalPipe, public httpreq: HttpReqProvider, public auth: AuthSingletonProvider, public loadingCtrl: LoadingController, private barcode: BarcodeScanner, public modalCtrl: ModalController) {
     this.authInfo = this.auth.authInfo;
   }
 
@@ -216,6 +220,52 @@ agenCheck(){
 
   }
 
+  
+  saldoModal() {
+    var params = {
+      xaccountnumber: this.authInfo.accountno,
+      xpin: this.pin,
+      xtoken: this.authInfo.token,
+      xusername: this.authInfo.username
+
+    }
+
+
+    var query = "";
+    for (let key in params) {
+      query += encodeURIComponent(key) + "=" + encodeURIComponent(params[key]) + "&";
+    }
+    this.showloading();
+    this.loading.present();
+    this.httpreq.postreq("serekening?" , query)
+      .subscribe((response) => {
+          console.log(response)
+          
+          if (response.STATUS == "OK") {
+            this.loading.dismiss();
+            
+            this.openModal(response);
+
+          } else if (response.STATUS != "OK") {
+            this.loading.dismiss();
+            //  this.showalert(response.MESSAGE);
+            console.log(response)
+          }
+
+        }, (error) => {
+          this.loading.dismiss();
+
+          this.showalert("KONEKSI BERMASALAH, HARAP ULANGI BEBERAPA SAAT LAGI", 'Notification');
+        }
+
+      )
+
+  }
+
+  openModal(obj) {
+    let myModal = this.modalCtrl.create(SaldomodalPage,obj);
+    myModal.present();
+  }
 
 }
 

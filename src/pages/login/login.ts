@@ -7,7 +7,9 @@ import {
   NavParams,
   MenuController,
   LoadingController,
-  AlertController
+  AlertController,
+  ModalController
+
 } from 'ionic-angular';
 import {
   TabsPage
@@ -18,6 +20,8 @@ import {
 import {
   AuthSingletonProvider
 } from '../../providers/auth-singleton/auth-singleton';
+import {RegistrationPage}
+from '../registration/registration'
 
 /**
  * Generated class for the LoginPage page.
@@ -49,7 +53,7 @@ export class LoginPage {
   longlat: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-    public menucontroller: MenuController, public loadingCtrl: LoadingController, public httpreq: HttpReqProvider, public auth: AuthSingletonProvider, public alertctrl: AlertController) {
+    public menucontroller: MenuController, public loadingCtrl: LoadingController, public httpreq: HttpReqProvider, public auth: AuthSingletonProvider, public alertctrl: AlertController,public modalCtrl:ModalController) {
     this.menucontroller.enable(false, 'myMenu');
 
     this.getLocation();
@@ -121,5 +125,15 @@ export class LoginPage {
       content: 'Please Wait...'
     });
   }
+
+  openModal() {
+    let myModal = this.modalCtrl.create(RegistrationPage,{loginpage:true});
+    myModal.present();
+  }
+
+
+
+
+
 
 }

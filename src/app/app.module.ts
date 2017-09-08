@@ -22,6 +22,11 @@ import { HttpModule } from '@angular/http';
 import { QRCodeModule } from 'angular2-qrcode';
 import {ExpandableComponent} from '../components/expandable/expandable';
 import { BarcodeScanner,BarcodeScannerOptions } from '@ionic-native/barcode-scanner';
+import {SaldomodalPage} from '../pages/saldomodal/saldomodal'
+import {RegistrationPage}
+from '../pages/registration/registration'
+import {ChangepassPage}
+from '../pages/changepass/changepass'
 @NgModule({
   declarations: [
     MyApp,
@@ -32,7 +37,10 @@ import { BarcodeScanner,BarcodeScannerOptions } from '@ionic-native/barcode-scan
     ProfilePage,
     HistoryPage,
     ExpandableComponent,
-    LoginPage
+    LoginPage,
+    SaldomodalPage,
+    RegistrationPage,
+    ChangepassPage
   ],
   imports: [
     BrowserModule,
@@ -48,7 +56,10 @@ import { BarcodeScanner,BarcodeScannerOptions } from '@ionic-native/barcode-scan
     HelpPage,
     ProfilePage,
     HistoryPage,
-    LoginPage
+    LoginPage,
+    SaldomodalPage,
+    RegistrationPage,
+    ChangepassPage
   ],
   providers: [
     StatusBar,
