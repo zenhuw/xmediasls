@@ -15,7 +15,7 @@
   
   <ion-content padding>
     
-          <button ion-button full large >
+          <!-- <button ion-button full large >
             Report Laku Pandai</button>
               <div class="spacer" style="height: 20px;" ></div>
 
@@ -25,7 +25,24 @@
               
                   <button ion-button full large >
                     Report Transaksi</button>
-                      <div class="spacer" style="height: 20px;" ></div>
+                      <div class="spacer" style="height: 20px;" ></div> -->
               
+            
+<ion-list>
+    <ion-item>
+        <ion-label>Date From</ion-label>
+        <ion-datetime displayFormat="DD MM YYYY" [(ngModel)]="event.datefrom" [max]="event.dateto"></ion-datetime>
+      </ion-item>
+      <ion-item>
+          <ion-label>Date To</ion-label>
+          <ion-datetime displayFormat="DD MM YYYY" [disabled]='true' [(ngModel)]="event.dateto"></ion-datetime>
+        </ion-item>
+        <div padding>
+            <button ion-button color="primary" block (click)="gotopage('InformasirekeningPage')">SUBMIT</button>
+          </div>
+</ion-list>
+
+
+
   </ion-content>
   

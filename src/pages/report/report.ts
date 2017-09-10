@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
+import { DatePicker } from '@ionic-native/date-picker';
+import moment from 'moment';
 /**
  * Generated class for the ReportPage page.
  *
@@ -15,11 +16,16 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class ReportPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+   event: any = {
+   datefrom: moment().format("YYYY-MM-DD"),
+    dateto: moment().format("YYYY-MM-DD"),
+    report: true
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ReportPage');
+  constructor(public navCtrl: NavController, public navParams: NavParams,public datePicker: DatePicker) {
   }
 
+  gotopage(page){
+    this.navCtrl.push(page,this.event);
+  }
 }

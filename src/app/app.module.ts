@@ -27,6 +27,9 @@ import {RegistrationPage}
 from '../pages/registration/registration'
 import {ChangepassPage}
 from '../pages/changepass/changepass'
+import {SortgridPipe}
+from '../pipes/sortgrid/sortgrid';
+import { DatePicker } from '@ionic-native/date-picker';
 @NgModule({
   declarations: [
     MyApp,
@@ -40,11 +43,14 @@ from '../pages/changepass/changepass'
     LoginPage,
     SaldomodalPage,
     RegistrationPage,
-    ChangepassPage
+    ChangepassPage,
+
+
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp),HttpModule,QRCodeModule
+    IonicModule.forRoot(MyApp),HttpModule,QRCodeModule,
+
    
   ],
   bootstrap: [IonicApp],
@@ -69,7 +75,9 @@ from '../pages/changepass/changepass'
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     HttpReqProvider,
     AuthSingletonProvider,
-    BarcodeScanner
+    BarcodeScanner,
+    DatePicker
+
   ]
 })
 export class AppModule {}
