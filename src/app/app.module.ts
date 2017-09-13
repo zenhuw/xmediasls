@@ -30,6 +30,7 @@ from '../pages/changepass/changepass'
 import {SortgridPipe}
 from '../pipes/sortgrid/sortgrid';
 import { DatePicker } from '@ionic-native/date-picker';
+import {NotSame} from '../pages/changepass/changepass'
 
 @NgModule({
   declarations: [
@@ -44,7 +45,7 @@ import { DatePicker } from '@ionic-native/date-picker';
     LoginPage,
     SaldomodalPage,
     RegistrationPage,
-    ChangepassPage,SortgridPipe
+    ChangepassPage,SortgridPipe,NotSame
 
 
   ],

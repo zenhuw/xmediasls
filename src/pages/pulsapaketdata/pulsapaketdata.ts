@@ -183,7 +183,8 @@ export class PulsapaketdataPage {
       xpulsacode: this.selecteddetail.pulsacode,
       xnominal: this.selecteddetail.price,
       xphonenumber: this.handphoneno,
-      xlocation: this.authInfo.location
+      xlocation: this.authInfo.location,
+      xtranfrom:'M'
     }
     var paramspaket = {
       xtoken: this.authInfo.token,
@@ -193,7 +194,8 @@ export class PulsapaketdataPage {
       xpaketdata: this.selecteddetail.pulsacode,
       xnominal: this.selecteddetail.price,
       xphonenumber: this.handphoneno,
-      xlocation: this.authInfo.location
+      xlocation: this.authInfo.location,
+      xtranfrom:'M'
     }
     var query = "";
     for (let key in this.pulsapaket == 'PULSA' ? paramspulsa : paramspaket) {

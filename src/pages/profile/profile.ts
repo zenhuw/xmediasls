@@ -34,8 +34,8 @@ authInfo: any;
      this.authInfo= this.auth.authInfo;
     }
 
-    openModal() {
-      let myModal = this.modalCtrl.create(ChangepassPage);
+    openModal(param) {
+      let myModal = this.modalCtrl.create(ChangepassPage,{TYPE:param});
       myModal.present();
     }
 
