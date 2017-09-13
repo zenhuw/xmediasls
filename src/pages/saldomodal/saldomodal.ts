@@ -3,6 +3,11 @@ import { IonicPage, NavController, NavParams,ViewController } from 'ionic-angula
 import {
   DecimalPipe
 } from '@angular/common';
+import {SortgridPipe
+} from '../../pipes/sortgrid/sortgrid';
+import { DatePipe } from '@angular/common';
+
+
 
 /**
  * Generated class for the SaldomodalPage page.

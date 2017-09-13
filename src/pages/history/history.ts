@@ -15,6 +15,10 @@ import {
 import {
   DecimalPipe
 } from '@angular/common';
+import { DatePipe } from '@angular/common';
+import {
+  SortgridPipe
+} from '../../pipes/sortgrid/sortgrid';
 /**
  * Generated class for the HistoryPage page.
  *
@@ -30,6 +34,9 @@ import {
 export class HistoryPage {
   authInfo: any;
   trnInfo: any;
+
+
+statushist: any="0";
 
   statusTrn = (x) => {
     if (x == '0') {

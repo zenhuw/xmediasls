@@ -41,7 +41,7 @@ agenCheck(){
   if(this.auth.authInfo.agenmode==false){
     this.showalert("Aktifkan Mode Agen di Menu Setting", "Notification")
   }else if(this.auth.authInfo.agenmode==true){
-    this.scanSync();
+    this.showPrompt('scan');
   }
 }
 
@@ -90,8 +90,8 @@ agenCheck(){
   }
 
 
-
-  showPrompt() {
+  
+  showPrompt(tran) {
     let prompt = this.alertctrl.create({
       title: 'PIN',
       message: "Enter Your PIN",
@@ -106,7 +106,7 @@ agenCheck(){
           text: 'Confirm',
           handler: data => {
             this.pin = data.PIN;
-            this.saldoModal();
+            this.saldoModal(tran);
           }
         },
         {
@@ -221,7 +221,7 @@ agenCheck(){
   }
 
   
-  saldoModal() {
+  saldoModal(tran) {
     var params = {
       xaccountnumber: this.authInfo.accountno,
       xpin: this.pin,
@@ -244,7 +244,7 @@ agenCheck(){
           if (response.STATUS == "OK") {
             this.loading.dismiss();
             
-            this.openModal(response);
+            tran=="saldo"?this.openModal(response):this.scanSync();
 
           } else if (response.STATUS != "OK") {
             this.loading.dismiss();

@@ -21,9 +21,10 @@ import {
   DecimalPipe
 } from '@angular/common';
 import {
-  SortgridPipe
-} from '../../pipes/sortgrid/sortgrid';
+  SortgridPipe2
+} from '../../pipes/sortgrid2/sortgrid2';
 import { DatePipe } from '@angular/common';
+
 
 /**
  * Generated class for the DaftarnasabahPage page.
@@ -38,6 +39,8 @@ import { DatePipe } from '@angular/common';
   templateUrl: 'informasirekening.html',
 })
 export class InformasirekeningPage {
+pin:any;
+
   datefrom: string = moment().subtract(7, "days").format("DD-MM-YYYY");
   dateto: string = moment().format("DD-MM-YYYY");
 
@@ -48,15 +51,15 @@ export class InformasirekeningPage {
 
   datasaldo: any = {
     DATA: [{
-      amount: 100000,
+      amount: 0,
       note: "Setor",
-      tranDate: "2017-09-06",
-      tranTime: "03:07:27",
-      tran_number: "STR1709071394164",
-      trnType: "KREDIT"
+      tranDate: "01-01-0000",
+      tranTime: "00:00:00",
+      tran_number: "000",
+      trnType: "000"
     }],
-    SALDO: "22522000",
-    "SALDO AWAL": "53722000",
+    SALDO: "0",
+    "SALDO AWAL": "0",
     STATUS: "OK"
   }
 
@@ -120,11 +123,12 @@ export class InformasirekeningPage {
     public loadingCtrl: LoadingController, public httpreq: HttpReqProvider, public auth: AuthSingletonProvider, public alertctrl: AlertController, public viewCtrl: ViewController) {
 
     this.authInfo = this.auth.authInfo;
-    this.saldoModal();
+    this.showPrompt();
   }
 
 
-  ionViewWillEnter() {
+  ionViewWillAppear() {
+    
     
   }
 
@@ -148,7 +152,6 @@ export class InformasirekeningPage {
     for (let key in params) {
       query += encodeURIComponent(key) + "=" + encodeURIComponent(params[key]) + "&";
     }
-    this.showloading();
     this.loading.present();
     this.httpreq.postreq("serekening?", query)
       .subscribe((response) => {
@@ -165,7 +168,7 @@ export class InformasirekeningPage {
           } 
           else if (response.STATUS != "OK") {
             this.loading.dismiss();
-            this.showalert(response.MESSAGE);
+            this.showalert(response.DATA);
             console.log(response)
           }
 
@@ -224,5 +227,78 @@ export class InformasirekeningPage {
   closeModal() {
     this.viewCtrl.dismiss();
   }
+
+  showPrompt() {
+    let prompt = this.alertctrl.create({
+      title: 'PIN',
+      message: "Enter Your PIN",
+      inputs: [{
+        name: 'PIN',
+        placeholder: '123456',
+        type: 'password',
+        max: 6,
+        min: 6
+      }, ],
+      buttons: [{
+          text: 'Confirm',
+          handler: data => {
+            this.pin = data.PIN;
+            this.pinCheck();
+
+          }
+        },
+        {
+          text: 'Cancel',
+          handler: data => {
+            this.navCtrl.pop();
+          }
+        }
+
+      ]
+    });
+    prompt.present();
+  }
+
+  pinCheck() {
+    var params = {
+      xaccountnumber: this.authInfo.accountno,
+      xpin: this.pin,
+      xtoken: this.authInfo.token,
+      xusername: this.authInfo.username,
+      xaction:"rekening"
+    }
+
+
+    var query = "";
+    for (let key in params) {
+      query += encodeURIComponent(key) + "=" + encodeURIComponent(params[key]) + "&";
+    }
+    this.showloading();
+    this.loading.present();
+    this.httpreq.postreq("serekening?" , query)
+      .subscribe((response) => {
+          console.log(response)
+          
+          if (response.STATUS == "OK") {
+            
+            this.saldoModal();
+          
+          } else if (response.STATUS != "OK") {
+            this.loading.dismiss();
+            this.showalert(response.MESSAGE);
+            console.log(response)
+          }
+
+        }, (error) => {
+          this.loading.dismiss();
+
+          this.showalert("KONEKSI BERMASALAH, HARAP ULANGI BEBERAPA SAAT LAGI");
+        }
+
+      )
+
+  }
+
+
 
 }

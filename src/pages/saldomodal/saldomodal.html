@@ -21,7 +21,7 @@
 <h4>Saldo:</h4>
 {{saldo[0].saldo | number:'3.2-5'}}
 <h4>Transaksi Terakhir:</h4>
-<div *ngFor="let data of data; let i = index">
-  {{i+1+'.' +' '+data.tranDate +' '+data.tran_number+' '+(data.amount | number:'3.2-5')}}
+<div *ngFor="let data of data | sortgrid:'tranDate'; let i = index">
+  {{i+1+'.' +' '+(data.tranDate | date:'dd-MM-y') +' '+data.tran_number+' '+(data.amount | number:'3.2-5')}}
 </div>
 </ion-content>
