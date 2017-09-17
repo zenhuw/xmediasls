@@ -206,5 +206,12 @@ xtranfrom: 'M'
     
           )
       }
+      isnan(value) {
+        if (isNaN(value)) {
+          return true
+        } else {
+          return false
+        }
+      }
       }
 

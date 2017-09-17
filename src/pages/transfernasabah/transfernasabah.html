@@ -7,12 +7,33 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>transfernasabah</ion-title>
+    <ion-title>Transfer Nasabah</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
-
+  <form (submit)="checkForm()">
+    <ion-list>
+         <ion-item>
+           <ion-label>Jumlah Transfer</ion-label>
+           <ion-input type="text" name="amount" [(ngModel)]="selectedamountstr" (change)="isnan($event.target.value)?$event.target.value='':onChangePrice($event.target.value)" (keyup)="isnan($event.target.value)?$event.target.value='':onPriceUp($event.target.value)" (focus)="($event.target.value='')"></ion-input>
+         </ion-item>
+   
+         <ion-item>
+          <ion-label>Bank</ion-label>
+          <ion-select style=" max-width: 100% !important;" name="bank" [(ngModel)]="selectednasabah" interface="popover">
+            <div *ngFor="let data of nasabahdata">
+            <ion-option  [value]="data.bankCode">{{data.bankName}}</ion-option>
+            </div>
+          </ion-select>
+        </ion-item>
+   
+         <div padding>
+           <button ion-button color="primary" block>SUBMIT</button>
+         </div>
+   
+       </ion-list>
+     </form>
 </ion-content>

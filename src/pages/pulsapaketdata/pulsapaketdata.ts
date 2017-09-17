@@ -48,12 +48,12 @@ export class PulsapaketdataPage {
     public loadingCtrl: LoadingController, public httpreq: HttpReqProvider, public auth: AuthSingletonProvider, public alertctrl: AlertController) {
     this.authInfo = this.auth.authInfo;
     this.pulsapaket = navParams.get("pulsapaket");
-    this.eekkuda();
+    this.startFunc();
   }
 
 
 
-  eekkuda() {
+  startFunc() {
     this.showloading();
     this.loading.present().then(() => {
       this.getVendorData()
