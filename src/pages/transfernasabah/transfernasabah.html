@@ -22,10 +22,10 @@
          </ion-item>
    
          <ion-item>
-          <ion-label>Bank</ion-label>
+          <ion-label floating>Transfer To</ion-label>
           <ion-select style=" max-width: 100% !important;" name="bank" [(ngModel)]="selectednasabah" interface="popover">
             <div *ngFor="let data of nasabahdata">
-            <ion-option  [value]="data.bankCode">{{data.bankName}}</ion-option>
+            <ion-option  [value]="data.accountNumberTo">{{data.accountNumberTo+' - '+data.nasabahName}}</ion-option>
             </div>
           </ion-select>
         </ion-item>

@@ -18,14 +18,14 @@
   <ion-list>
        <ion-item>
          <ion-label>Nomor Rekening</ion-label>
-         <ion-input type="text" name="norek" [(ngModel)]="selectedacc"></ion-input>
+         <ion-input type="number" name="norek" [(ngModel)]="selectedacc"></ion-input>
        </ion-item>
  
        <ion-item>
         <ion-label>Bank</ion-label>
         <ion-select style=" max-width: 100% !important;" name="bank" [(ngModel)]="selectedbank" interface="alert">
-          <div *ngFor="let data of bankdata">
-          <ion-option  [value]="data.bankCode">{{data.bankName}}</ion-option>
+          <div *ngFor="let data of bankdata | orderBy:['bankName']">
+          <ion-option  [value]="data">{{data.bankName}}</ion-option>
           </div>
         </ion-select>
       </ion-item>

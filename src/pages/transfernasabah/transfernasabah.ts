@@ -36,6 +36,7 @@ export class TransfernasabahPage {
   getCurrency(amount: any) {
     return this.decimalPipe.transform(amount, '1.2-2');
   }
+  pin:string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private decimalPipe: DecimalPipe,
@@ -51,22 +52,24 @@ export class TransfernasabahPage {
     }else if(this.selectednasabah==''){
       this.showalertsubmit("HARAP PILIH NO REKENING TUJUAN");
     }
-     else if (this.selectedamount !== 0) {
-      this.postDaftarTransfer();
+     else if (this.selectedamount !== 0 &&this.selectednasabah!=='' ) {
+      this.showPrompt();
     }
   }
-  
+
   postDaftarTransfer() {
+    
     var params = {
       xtoken: this.authInfo.token,
       xusername: this.authInfo.username,
       xaccountnumber: this.authInfo.accountno,
       xaccountnumberto: this.selectednasabah,
       xnominal:this.selectedamount,
-      xketerangan:'',
+      xketerangan:'trasfer',
       xtranfrom:'M',
       xlocation:this.authInfo.longlat
     }
+    console.log(params)
     var query = "";
     for (let key in params) {
       query += encodeURIComponent(key) + "=" + encodeURIComponent(params[key]) + "&";
@@ -197,5 +200,74 @@ export class TransfernasabahPage {
     } else {
       return false
     }
+  }
+
+
+  showPrompt() {
+    let prompt = this.alertctrl.create({
+      title: 'PIN',
+      message: "Enter Your PIN",
+      inputs: [{
+        name: 'PIN',
+        placeholder: '123456',
+        type: 'password',
+        max: 6,
+        min: 6
+      }, ],
+      buttons: [{
+          text: 'Confirm',
+          handler: data => {
+            this.pin = data.PIN;
+           
+            this.saldoModal();
+          }
+        },
+        {
+          text: 'Cancel',
+          handler: data => {}
+        }
+
+      ]
+    });
+    prompt.present();
+  }
+
+
+  saldoModal() {
+    var params = {
+      xaccountnumber: this.authInfo.accountno,
+      xpin: this.pin,
+      xtoken: this.authInfo.token,
+      xusername: this.authInfo.username
+   
+    }
+
+    var query = "";
+    for (let key in params) {
+      query += encodeURIComponent(key) + "=" + encodeURIComponent(params[key]) + "&";
+    }
+    this.showloading();
+    this.loading.present();
+    this.httpreq.postreq("sevalidateaccount?" , query)
+      .subscribe((response) => {
+          console.log(response)
+          
+          if (response.STATUS == "OK") {
+            this.postDaftarTransfer();
+
+          } else if (response.STATUS != "OK") {
+            this.loading.dismiss();
+              this.showalert("PIN YANG ANDA MASUKKAN SALAH");
+            console.log(response)
+          }
+
+        }, (error) => {
+          this.loading.dismiss();
+
+          this.showalert("KONEKSI BERMASALAH, HARAP ULANGI BEBERAPA SAAT LAGI");
+        }
+
+      )
+
   }
 }
