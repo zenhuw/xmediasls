@@ -37,7 +37,7 @@
         <ion-label>Provinsi</ion-label>
         <ion-select style=" max-width: 100% !important;" class="form-control" formControlName="province" interface="popover">
           <div *ngFor="let data of province">
-          <ion-option  [value]="data">{{data}}</ion-option>
+          <ion-option  [value]="data.id">{{data.desc}}</ion-option>
           </div>
         </ion-select>
       </ion-item>

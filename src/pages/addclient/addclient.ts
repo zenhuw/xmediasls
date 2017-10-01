@@ -120,7 +120,7 @@ export class AddclientPage {
         } else if (datatype == "province") {
           let arr = []
           for(let i in response){
-             arr.push(response[i])
+             arr.push({id:i,desc:response[i]})
           }
           console.log(arr);
           this.province = arr;
