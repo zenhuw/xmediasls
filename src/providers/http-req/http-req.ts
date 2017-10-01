@@ -20,7 +20,8 @@ import {
 */
 @Injectable()
 export class HttpReqProvider {
-  baseurl: string = 'http://103.77.78.131:8080/semetapro/api/'
+
+  baseurl: string = 'http://xmedianusantara.net/api/'
   constructor(public http: Http) {}
 
   getreq(url: string) {
@@ -34,6 +35,17 @@ export class HttpReqProvider {
     return obs;
   };
 
+  getreqexternal(url: string) {
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/x-www-form-urlencoded');
+
+    let options = new RequestOptions({
+      headers: headers
+    });
+    let obs = this.http.get(url,options).map(res => res.json())
+    return obs;
+  };
+
   postreq(url: string, body) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
@@ -44,4 +56,11 @@ export class HttpReqProvider {
     let obs = this.http.post(this.baseurl + url, body,options).map(res => res.json())
     return obs;
   };
+
+  getApi(apiname) {
+   var api= {"login": "login_api"}
+    return api[apiname]
+  }
+
+
 }

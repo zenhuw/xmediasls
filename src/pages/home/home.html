@@ -11,7 +11,7 @@
 
 
 
-  <ion-segment>
+  <!-- <ion-segment>
     <div class="butcol">
       <button ion-button color="danger" clear class="colbut" (click)="showPrompt('saldo')">
       SALDO
@@ -27,7 +27,7 @@
       QR CODE
     </button>
     </div>
-  </ion-segment>
+  </ion-segment> -->
 
   <ion-slides pager='true' loop='true' autoplay='10000' style="max-height:40%">
     <ion-slide>
@@ -41,7 +41,7 @@
     </ion-slide>
   </ion-slides>
   <div class="spacer" style="height: 30px;"></div>
-  <ion-segment>
+  <!-- <ion-segment>
     <div class="butcolmenu">
       <button ion-button color="danger" clear class="colbutmenu" (click)="gotoPage('LakupandaiPage')">
     <img src="http://golekno.com/metapro/wp-content/uploads/sites/2/2017/07/lakupandai300.png" style="display: block; width: 100%; height: auto; margin-left: auto; margin-right: auto;">
@@ -75,7 +75,22 @@
       <img src="http://golekno.com/metapro/wp-content/uploads/sites/2/2017/07/report300.png" style="display: block; width: 100%; height: auto; margin-left: auto; margin-right: auto;">
     </button>
     </div>
-  </ion-segment>
+  </ion-segment> -->
 
+    <button ion-button color="primary" round full (click)="gotoPage('AddclientPage')">
+      Daftar Client
+    </button>
+    <button ion-button color="primary" round full>
+      Add Order
+    </button>
+    <button ion-button color="primary" round full>
+      Fungsi 3
+    </button>
+    <button ion-button color="primary" round full>
+      Fungsi 4
+    </button>
+    <button ion-button color="primary" round full>
+      Fungsi 5
+    </button>
 
 </ion-content>

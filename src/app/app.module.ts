@@ -30,7 +30,13 @@ from '../pages/changepass/changepass'
 import {SortgridPipe}
 from '../pipes/sortgrid/sortgrid';
 import { DatePicker } from '@ionic-native/date-picker';
-import {NotSame} from '../pages/changepass/changepass'
+import {NotSame} from '../pages/changepass/changepass';
+
+import { File } from '@ionic-native/file';
+import { Transfer } from '@ionic-native/transfer';
+import { FilePath } from '@ionic-native/file-path';
+import { Camera } from '@ionic-native/camera';
+import { FormsModule, ReactiveFormsModule, FormBuilder } from '@angular/forms'
 
 @NgModule({
   declarations: [
@@ -78,6 +84,11 @@ import {NotSame} from '../pages/changepass/changepass'
     HttpReqProvider,
     AuthSingletonProvider,
     BarcodeScanner,
+    File,
+    Transfer,
+    FormBuilder,
+    Camera,
+    FilePath,
     DatePicker,SortgridPipe
 
   ]

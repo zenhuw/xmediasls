@@ -68,19 +68,21 @@ export class LoginPage {
     
     this.showloading();
     this.loading.present();
-    this.httpreq.postreq("selogin?","xusername="+this.userInfo.username +"&xpassword=" + this.userInfo.password + "&xlocation=" + this.longlat + "&xloginfrom=M")
+    this.httpreq.postreq(this.httpreq.getApi("login"),"username="+this.userInfo.username +"&password=" + this.userInfo.password)
       .subscribe((response) => {
           console.log(response)
-          if (response.STATUS == "OK") {
-            this.auth.setter(this.userInfo.username, response.TOKEN, this.longlat, response.ACCOUNT)
-            this.loading.dismiss();
-            this.navCtrl.push(TabsPage);
-            console.log(this.auth.authInfo);
-          } else {
-            this.loading.dismiss();
-            this.showalert(response.MESSAGE);
-          }
+          // if (response.STATUS == "OK") {
+          //   this.auth.setter(this.userInfo.username, response.TOKEN, this.longlat, response.ACCOUNT)
+          //   this.loading.dismiss();
+          //   this.navCtrl.push(TabsPage);
+          //   console.log(this.auth.authInfo);
+          // } else {
+          //   this.loading.dismiss();
+          //   this.showalert(response.MESSAGE);
+          // }
 
+        this.loading.dismiss();
+        this.navCtrl.push(TabsPage)
         }, (error) => {
           this.loading.dismiss();
           this.showalert("KONEKSI BERMASALAH, HARAP ULANGI BEBERAPA SAAT LAGI");
