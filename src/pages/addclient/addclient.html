@@ -37,23 +37,23 @@
         <ion-label>Provinsi</ion-label>
         <ion-select style=" max-width: 100% !important;" class="form-control" formControlName="province" interface="popover">
           <div *ngFor="let data of province">
-          <ion-option  [value]="data.id">{{data.desc}}</ion-option>
+          <ion-option  [value]="data">{{data.desc}}</ion-option>
           </div>
         </ion-select>
       </ion-item>
 
       <ion-item>
         <ion-label>Kota/Kabupaten</ion-label>
-        <ion-select style=" max-width: 100% !important;" class="form-control" formControlName="city" interface="popover" [disabled]="form.value.province==''">
-          <!-- <div *ngFor="let data of vendordata">
-          <ion-option  [value]="data.vendorCode">{{data.vendorCode}}</ion-option>
-          </div> -->
+        <ion-select style=" max-width: 100% !important;" class="form-control" formControlName="city" interface="popover" [disabled]="form.value.province.id==''">
+          <div *ngFor="let data of city">
+          <ion-option  [value]="data">{{data.desc}}</ion-option>
+          </div>
         </ion-select>
       </ion-item>
 
       <ion-item>
         <ion-label>Kecamatan</ion-label>
-        <ion-select style=" max-width: 100% !important;" class="form-control" formControlName="district" interface="popover" [disabled]="form.value.city==''">
+        <ion-select style=" max-width: 100% !important;" class="form-control" formControlName="district" interface="popover" [disabled]="form.value.city.id==''">
           <!-- <div *ngFor="let data of vendordata">
           <ion-option  [value]="data.vendorCode">{{data.vendorCode}}</ion-option>
           </div> -->
@@ -62,7 +62,7 @@
 
       <ion-item>
         <ion-label>Kelurahan/Desa</ion-label>
-        <ion-select style=" max-width: 100% !important;" class="form-control" formControlName="subdistrict" interface="popover" [disabled]="form.district==''">
+        <ion-select style=" max-width: 100% !important;" class="form-control" formControlName="subdistrict" interface="popover" [disabled]="form.value.district.id==''">
           <!-- <div *ngFor="let data of vendordata">
           <ion-option  [value]="data.vendorCode">{{data.vendorCode}}</ion-option>
           </div> -->
@@ -70,7 +70,7 @@
       </ion-item>
          <ion-item>
              <ion-label stacked>Alamat Detail</ion-label>
-             <ion-textarea type="text" rows="3" maxLength="500" class="form-control" formControlName="province" textarea></ion-textarea>
+             <ion-textarea type="text" rows="3" maxLength="500" class="form-control" formControlName="address" textarea></ion-textarea>
            </ion-item>
   
        <div padding>

@@ -62,7 +62,7 @@ export class AddclientPage {
   loading: any;
 
   province: Array<{id:string, desc:string}>;
-  city: any;
+  city: Array<{id:string, desc:string}>;
   district: any;
 
   form: any
@@ -73,24 +73,25 @@ export class AddclientPage {
     private decimalPipe: DecimalPipe,
     public loadingCtrl: LoadingController, public httpreq: HttpReqProvider, public auth: AuthSingletonProvider, public alertctrl: AlertController,
     private formBuilder: FormBuilder) {
-    this.getdata("province");
     this.form = formBuilder.group({
       name: '',
       email: '',
       handphone: '',
       address: '',
-      province: '',
+      province: {id:'',desc:''},
       provincestring: '',
-      city: '',
-      district: '',
+      city: {id:'',desc:''},
+      district: {id:'',desc:''},
       subdistrict: ''
     })
 
     this.form.
     valueChanges.subscribe(data => {
-      console.log(data);
-
+      this.getdata("city");
+      this.getdata("district");
+      
     })
+    this.getdata("province");
   }
 
   showloading(msg ? ) {
@@ -104,8 +105,8 @@ export class AddclientPage {
   getdata(datatype) {
     var type = {
       "province": "https://kodepos-2d475.firebaseio.com/list_propinsi.json?",
-      "city": "https://kodepos-2d475.firebaseio.com/list_kotakab/" + this.data.province + ".json?",
-      "district": "https://kodepos-2d475.firebaseio.com/kota_kab/" + this.data.city + ".json?"
+      "city": "https://kodepos-2d475.firebaseio.com/list_kotakab/" + this.form.value.province.id + ".json?",
+      "district": "https://kodepos-2d475.firebaseio.com/kota_kab/" + this.form.value.city.id + ".json?"
     }
 
     this.httpreq.getreqexternal(type[datatype])
@@ -113,7 +114,12 @@ export class AddclientPage {
         console.log(response);
         if (datatype == "city") {
           console.log(response);
-          this.city = response;
+          let arr = []
+          for(let i in response){
+             arr.push({id:i,desc:response[i]})
+          }
+          console.log(arr);
+          this.city= arr;
         } else if (datatype == "district") {
           console.log(response);
           this.district = response;
