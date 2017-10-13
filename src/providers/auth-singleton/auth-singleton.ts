@@ -18,23 +18,29 @@ export class AuthSingletonProvider {
     accountno: string,
     saldo: number,
     agenmode: boolean,
+    userid:number,
+    affid:number
   }={
     username: '',
     token: '',
     longlat: '',
     accountno: '',
     saldo: 0,
-    agenmode:false
+    agenmode:false,
+    userid:0,
+    affid:0
   }
 
   constructor(public http: Http) {
   }
 
-setter(username:string,token:string,longlat:string,accountno:string){
+setter(username:string,userid:number){
     this.authInfo.username= username;
-    this.authInfo.token= token;
-    this.authInfo.longlat= longlat;
-    this.authInfo.accountno= accountno;
+    this.authInfo.userid=userid;
+}
+
+setaffid(affid:number){
+  this.authInfo.affid=affid;
 }
 
 setloc(longlat){

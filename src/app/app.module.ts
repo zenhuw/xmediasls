@@ -31,6 +31,7 @@ import {SortgridPipe}
 from '../pipes/sortgrid/sortgrid';
 import { DatePicker } from '@ionic-native/date-picker';
 import {NotSame} from '../pages/changepass/changepass';
+import {WhmcsPage} from '../pages/whmcs/whmcs'
 
 import { File } from '@ionic-native/file';
 import { Transfer } from '@ionic-native/transfer';
@@ -51,7 +52,7 @@ import { FormsModule, ReactiveFormsModule, FormBuilder } from '@angular/forms'
     LoginPage,
     SaldomodalPage,
     RegistrationPage,
-    ChangepassPage,SortgridPipe,NotSame
+    ChangepassPage,SortgridPipe,NotSame,WhmcsPage
 
 
   ],
@@ -73,7 +74,8 @@ import { FormsModule, ReactiveFormsModule, FormBuilder } from '@angular/forms'
     LoginPage,
     SaldomodalPage,
     RegistrationPage,
-    ChangepassPage
+    ChangepassPage,
+    WhmcsPage
   ],
   providers: [
     StatusBar,

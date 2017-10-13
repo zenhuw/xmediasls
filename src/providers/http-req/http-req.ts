@@ -21,7 +21,7 @@ import {
 @Injectable()
 export class HttpReqProvider {
 
-  baseurl: string = 'http://xmedianusantara.net/api/'
+  baseurl: string = 'http://client.xmedianusantara.net/includes/api.php?'
   constructor(public http: Http) {}
 
   getreq(url: string) {
@@ -53,7 +53,7 @@ export class HttpReqProvider {
     let options = new RequestOptions({
       headers: headers
     });
-    let obs = this.http.post(this.baseurl + url, body,options).map(res => res.json())
+    let obs = this.http.post(this.baseurl+url, body,options).map(res => res.json())
     return obs;
   };
 

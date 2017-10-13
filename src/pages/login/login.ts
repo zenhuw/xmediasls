@@ -14,6 +14,9 @@ import {
 import {
   TabsPage
 } from '../tabs/tabs'
+import{
+  WhmcsPage
+} from '../whmcs/whmcs'
 import {
   HttpReqProvider
 } from '../../providers/http-req/http-req';
@@ -68,7 +71,22 @@ export class LoginPage {
     
     this.showloading();
     this.loading.present();
-    this.httpreq.postreq(this.httpreq.getApi("login"),"username="+this.userInfo.username +"&password=" + this.userInfo.password)
+
+    var params = {
+      action:"ValidateLogin",
+      email:this.userInfo.username,
+      password2:this.userInfo.password,
+      username:"5ReAy2GFe7FCtPus7nutOmLCj8rwinV4",
+      password:"2Zi4ap1fdqMIQAtPpAuBr1gdhCtmwBcE",
+      accesskey:"2Zi4ap1fdqMIQAtPpAuBr1gdhCtmwBcE",
+      responsetype:"json",
+    }
+
+    var query = "";
+    for (let key in params) {
+      query += encodeURIComponent(key) + "=" + encodeURIComponent(params[key]) + "&";
+    }
+    this.httpreq.postreq("",query)
       .subscribe((response) => {
           console.log(response)
           // if (response.STATUS == "OK") {
@@ -81,8 +99,15 @@ export class LoginPage {
           //   this.showalert(response.MESSAGE);
           // }
 
-        this.loading.dismiss();
-        this.navCtrl.push(TabsPage)
+        if(response.result=="success"){
+          this.auth.setter(this.userInfo.username,response.userid);
+          this.getAffId(response.userid);
+        }else{
+          this.loading.dismiss();
+          this.showalert("LOGIN GAGAL, HARAP ULANGI BEBERAPA SAAT LAGI");
+        }
+
+
         }, (error) => {
           this.loading.dismiss();
           this.showalert("KONEKSI BERMASALAH, HARAP ULANGI BEBERAPA SAAT LAGI");
@@ -91,7 +116,42 @@ export class LoginPage {
       )
   }
 
+getAffId(useridparam){
+  var params = {
+    action:"GetAffiliates",
+    username:"5ReAy2GFe7FCtPus7nutOmLCj8rwinV4",
+    password:"2Zi4ap1fdqMIQAtPpAuBr1gdhCtmwBcE",
+    accesskey:"2Zi4ap1fdqMIQAtPpAuBr1gdhCtmwBcE",
+    responsetype:"json",
+    userid:useridparam
+  }
 
+  var query = "";
+  for (let key in params) {
+    query += encodeURIComponent(key) + "=" + encodeURIComponent(params[key]) + "&";
+  }
+  this.httpreq.postreq("",query)
+    .subscribe((response) => {
+        console.log(response)
+        
+
+      if(response.result=="success"){
+        this.auth.setaffid(response.affiliates.affiliate[0].id)
+        this.loading.dismiss();
+        console.log(this.auth.authInfo)
+        this.navCtrl.push(WhmcsPage)
+      }else{
+      this.loading.dismiss();
+      this.showalert("LOGIN GAGAL, HARAP ULANGI BEBERAPA SAAT LAGI");
+      }
+      }, (error) => {
+        this.loading.dismiss();
+        this.showalert("KONEKSI BERMASALAH, HARAP ULANGI BEBERAPA SAAT LAGI");
+      }
+
+    )
+
+}
 
 
   getLocation() {
