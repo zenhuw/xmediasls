@@ -139,6 +139,8 @@ getAffId(useridparam){
         this.auth.setaffid(response.affiliates.affiliate[0].id)
         this.loading.dismiss();
         console.log(this.auth.authInfo)
+        this.userInfo.username='';
+        this.userInfo.password='';
         this.navCtrl.push(WhmcsPage)
       }else{
       this.loading.dismiss();
